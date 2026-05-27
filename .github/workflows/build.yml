@@ -7,7 +7,6 @@ jobs:
       - uses: actions/checkout@v2
       - name: Build Module
         run: |
-          # نستخدم المسار الصحيح للمجلد الذي رفعت فيه الملفات
           cd drivers/bluetooth
           make -C /lib/modules/$(uname -r)/build M=$PWD modules
       - name: Upload Artifact
