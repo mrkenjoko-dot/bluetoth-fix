@@ -4,13 +4,13 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Build Module
         run: |
           cd drivers/bluetooth
           make -C /lib/modules/$(uname -r)/build M=$PWD modules
       - name: Upload Artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: hci_qca_patched
           path: drivers/bluetooth/hci_qca.ko
