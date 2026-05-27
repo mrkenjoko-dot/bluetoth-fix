@@ -4,13 +4,15 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-      - name: Install Kernel Headers
-        run: sudo apt-get update && sudo apt-get install -y linux-headers-$(uname -r)
+      - uses: actions/checkout@v4
+      - name: List Files
+        run: ls -R
       - name: Build Module
         run: |
-          cd drivers/bluetooth
+          # سنبحث عن الملف قبل البناء
+          find . -name "Makefile"
+          # سنحاول البناء إذا وجدنا الملف
+          cd drivers/bluetooth || cd *bluetooth*
           make -C /lib/modules/$(uname -r)/build M=$PWD modules
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
