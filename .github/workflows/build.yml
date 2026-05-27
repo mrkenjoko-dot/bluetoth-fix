@@ -4,11 +4,12 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
       - name: Build Module
         run: |
-          make -C drivers/bluetooth M=$PWD/drivers/bluetooth modules
+          # نستخدم المسار الصحيح للمجلد الذي رفعت فيه الملفات
+          cd drivers/bluetooth
+          make -C /lib/modules/$(uname -r)/build M=$PWD modules
       - name: Upload Artifact
         uses: actions/upload-artifact@v2
         with:
