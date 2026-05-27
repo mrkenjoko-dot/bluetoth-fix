@@ -1,20 +1,9 @@
-name: Build Kernel Module
+name: Debug Build
 on: [push]
 jobs:
-  build:
+  debug:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: List All Files
+      - name: Show structure
         run: ls -R
-      - name: Build Module
-        run: |
-          # العثور على المجلد الذي يحتوي على الملفات
-          cd $(find . -type d -name "bluetooth")
-          make -C /lib/modules/$(uname -r)/build M=$PWD modules
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: hci_qca_patched
-          path: drivers/bluetooth/hci_qca.ko
-          
