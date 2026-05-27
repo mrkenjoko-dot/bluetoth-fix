@@ -5,17 +5,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: List Files
+      - name: List All Files
         run: ls -R
       - name: Build Module
         run: |
-          # سنبحث عن الملف قبل البناء
-          find . -name "Makefile"
-          # سنحاول البناء إذا وجدنا الملف
-          cd drivers/bluetooth || cd *bluetooth*
+          # العثور على المجلد الذي يحتوي على الملفات
+          cd $(find . -type d -name "bluetooth")
           make -C /lib/modules/$(uname -r)/build M=$PWD modules
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
           name: hci_qca_patched
           path: drivers/bluetooth/hci_qca.ko
+          
