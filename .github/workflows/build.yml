@@ -1,0 +1,16 @@
+name: Build Kernel Module
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+      - name: Build Module
+        run: |
+          make -C drivers/bluetooth M=$PWD/drivers/bluetooth modules
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: hci_qca_patched
+          path: drivers/bluetooth/hci_qca.ko
