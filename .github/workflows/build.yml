@@ -7,11 +7,14 @@ jobs:
       - uses: actions/checkout@v4
       - name: Build Module
         run: |
-          # نتوجه للمجلد الذي يحتوي على ملفاتك (تأكد من تطابق المسار مع ما ظهر في قائمة الملفات السابقة)
-          cd drivers/bluetooth
+          # البحث عن المجلد الذي يحتوي على ملف hci_qca.c
+          DIR=$(find . -name "hci_qca.c" -exec dirname {} \;)
+          echo "Found module in: $DIR"
+          cd "$DIR"
+          # بناء الملف
           make -C /lib/modules/$(uname -r)/build M=$PWD modules
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
           name: hci_qca_patched
-          path: drivers/bluetooth/hci_qca.ko
+          path: "**/hci_qca.ko"
